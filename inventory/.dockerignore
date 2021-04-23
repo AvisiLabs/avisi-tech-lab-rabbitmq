@@ -1,0 +1,6 @@
+# Ignore everything
+**
+
+# Whitelist
+!wait-for-it.sh
+!build/libs/inventory-*.jar

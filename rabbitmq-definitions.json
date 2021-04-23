@@ -1,0 +1,26 @@
+{
+  "rabbit_version": "3.8.17",
+  "rabbitmq_version": "3.8.17",
+  "users": [
+    {
+      "name": "beer",
+      "password_hash": "h5iCNjHhQLxHkGA/28MifZnDyO7aaJdR66jkXxem2BiNmoCG",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "beer",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.8.17-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    expose:
+      - 5672
+    volumes:
+      - rabbitmq_data_volume:/var/lib/rabbitmq
+      - rabbitmq_log_volume:/var/log/rabbitmq
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitmq-definitions.json:/etc/rabbitmq/definitions.json
+    networks:
+      - beernet
+
+  brewery:
+    build: ./brewery
+    container_name: brewery
+    depends_on:
+      - rabbitmq
+    networks:
+      - beernet
+    command: ./wait-for-it.sh rabbitmq:5672 -t 60 -- java -jar app.jar
+
+  inventory:
+    build: ./inventory
+    container_name: inventory
+    depends_on:
+      - rabbitmq
+    networks:
+      - beernet
+    command: ./wait-for-it.sh rabbitmq:5672 -t 60 -- java -jar app.jar
+
+volumes:
+  rabbitmq_data_volume:
+    driver: local
+
+  rabbitmq_log_volume:
+    driver: local
+
+networks:
+  beernet:
+    name: beernet
+    driver: bridge

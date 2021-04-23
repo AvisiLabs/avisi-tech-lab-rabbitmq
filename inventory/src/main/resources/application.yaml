@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: inventory
+  rabbitmq:
+    host: rabbitmq
+    username: beer
+    password: brewing
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        concurrency: 1
+        max-concurrency: 1
